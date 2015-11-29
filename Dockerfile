@@ -25,6 +25,8 @@ RUN sed -i 's/^ServerSignature/#ServerSignature/g' /etc/apache2/conf-enabled/sec
     a2enmod proxy proxy_http proxy_balancer; \
     echo "SSLProtocol ALL -SSLv2 -SSLv3" >> /etc/apache2/apache2.conf
 
+COPY ./app/index.html /var/www/html/index.html
+
 COPY ./unizeto/* /etc/ssl/certs/
 ADD 000-default.conf /etc/apache2/sites-enabled/000-default.conf
 ADD 001-default-ssl.conf /etc/apache2/sites-enabled/001-default-ssl.conf
