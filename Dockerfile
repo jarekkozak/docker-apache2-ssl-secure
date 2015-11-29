@@ -4,7 +4,7 @@ MAINTAINER MarvAmBass
 ENV LANG C.UTF-8
 
 RUN apt-get update; apt-get install -y \
-    apache2 \
+    apache2 apache2-utils \
     openssl \
     ca-certificates
 
