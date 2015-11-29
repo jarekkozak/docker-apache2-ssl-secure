@@ -1,11 +1,13 @@
-FROM ubuntu:14.04
+FROM ubuntu:trusty
 MAINTAINER MarvAmBass
 
 ENV LANG C.UTF-8
 
 RUN apt-get update; apt-get install -y \
     apache2 \
-    openssl
+    openssl \
+    ca-certificates
+
 
 RUN rm -rf /var/www/html/*; rm -rf /etc/apache2/sites-enabled/*; \
     mkdir -p /etc/apache2/external
@@ -20,8 +22,10 @@ RUN sed -i 's/^ServerSignature/#ServerSignature/g' /etc/apache2/conf-enabled/sec
     echo "ServerTokens Prod" >> /etc/apache2/conf-enabled/security.conf; \
     a2enmod ssl; \
     a2enmod headers; \
+    a2enmod proxy proxy_http proxy_balancer; \
     echo "SSLProtocol ALL -SSLv2 -SSLv3" >> /etc/apache2/apache2.conf
 
+COPY ./unizeto/* /etc/ssl/certs/
 ADD 000-default.conf /etc/apache2/sites-enabled/000-default.conf
 ADD 001-default-ssl.conf /etc/apache2/sites-enabled/001-default-ssl.conf
 
